@@ -15,6 +15,8 @@ namespace LoggingKata
             // TODO:  Find the two Taco Bells that are the furthest from one another.
             // HINT:  You'll need two nested forloops ---------------------------
 
+
+
             logger.LogInfo("Log initialized");
 
             // use File.ReadAllLines(path) to grab all the lines from your csv file
@@ -36,10 +38,41 @@ namespace LoggingKata
             // TODO: Create two `ITrackable` variables with initial values of `null`. These will be used to store your two taco bells that are the farthest from each other.
             // Create a `double` variable to store the distance
 
-            // Include the Geolocation toolbox, so you can compare locations: `using GeoCoordinatePortable;`
+            ITrackable point1 = new TacoBell();
+            ITrackable point2 = new TacoBell();
+
+            double distance = 0;
+
+            // Include the Geolocation library, so you can compare locations: `using GeoCoordinatePortable;`
 
             //HINT NESTED LOOPS SECTION---------------------
             // Do a loop for your locations to grab each location as the origin (perhaps: `locA`)
+            for(int x = 0; x < locations.Length; x++ )
+            {
+                var locA = locations[x];
+                var corA = new GeoCoordinate(locA.Location.Latitude, locA.Location.Longitude);
+                for (int y = 0; y < locations.Length; y++)
+                {
+                    var locB = locations[y];
+                    var corB = new GeoCoordinate(locB.Location.Latitude, locB.Location.Longitude);
+
+                    if (corA.GetDistanceTo(corB) > distance)
+                    {
+                        distance = corA.GetDistanceTo(corB);
+                        point1 = locA;
+                        point2 = locB;
+                    }
+
+                }
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine(point1.Name);
+            Console.WriteLine($"is {distance} meters apart from");
+            Console.WriteLine(point2.Name);
+            Console.WriteLine("making these the furthest");
 
             // Create a new corA Coordinate with your locA's lat and long
 
